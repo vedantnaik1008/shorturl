@@ -1,4 +1,4 @@
-const sessionIdToUserMap = new Map()
+const sessionIdToUserMap = new Map() //statefull
 
 export function setUser(id, user) {
     sessionIdToUserMap.set(id, user)
