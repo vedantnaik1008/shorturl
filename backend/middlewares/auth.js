@@ -1,17 +1,17 @@
 import { getUser } from "../services/auth.js";
 
-export const checkAuthentication = (req, res, next) => {
-    const authorizationHeaderValue = req.headers['authorization']
-    if(!authorizationHeaderValue || !authorizationHeaderValue.startsWith("Bearer")) return next()
+export const checkAuthentication = (req, res, next) => { //authenticate user
+    const tokenCookie = req.cookies?.token
+    if(!tokenCookie) return next()
     
-    const token = authorizationHeaderValue.split("Bearer")[1]
+    const token = tokenCookie
     const user = getUser(token)
 
     req.user = user
     return next()
 }
 
-export const restrictTo = (roles = []) => {
+export const restrictTo = (roles = []) => { //authorization roles
     return function (req, res, next) {
         if(!req.user)  return res.redirect('/static/login')
 

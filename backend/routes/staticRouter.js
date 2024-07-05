@@ -4,7 +4,14 @@ import { restrictTo } from '../middlewares/auth.js';
 
 export const router = express.Router()
 
-router.get('/frontend', restrictTo(["NORMAL"]), async(req, res)=> {
+router.get('/admin/url', restrictTo(['ADMIN']), async (req, res) => {
+    const allUrls = await URL.find({});
+    return res.render('home', {
+        urls: allUrls
+    });
+});
+
+router.get('/frontend', restrictTo(["NORMAL", "ADMIN"]), async(req, res)=> {
     const allUrls = await URL.find({createdBy: req.user._id});
     return res.render('home', {
         urls: allUrls

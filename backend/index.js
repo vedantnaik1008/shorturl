@@ -22,7 +22,7 @@ app.use(express.urlencoded({extended: false}));
 app.use(cookieParser())
 app.use(checkAuthentication)
 
-app.use('/url', restrictTo(["NORMAL"]), urlRouter)
+app.use('/url', restrictTo(["NORMAL", "ADMIN"]), urlRouter)
 app.use('/', urlRouter);
 app.use('/user', userRouter)
 app.use('/static', staticRouter);
