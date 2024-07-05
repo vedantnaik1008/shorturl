@@ -24,8 +24,8 @@ export const handleUserLogin = async (req, res) => {
         error: "Invalid Username or Password",
     })
 
-    const sessionId = uuidv4(); //if everythibng is fine i will create uid and store it with user object
-    setUser(sessionId, user)
-    res.cookie("uid", sessionId) //create cookie with name and id
+
+    const token = setUser(user);
+    res.cookie("token", token) //create cookie with name and id
     return res.redirect('/static/frontend');
 };

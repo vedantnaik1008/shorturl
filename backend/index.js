@@ -5,7 +5,7 @@ import {router as staticRouter} from './routes/staticRouter.js'
 import { router as userRouter } from './routes/user.js';
 import path from 'path';
 import cookieParser from 'cookie-parser';
-import { checkAuth, restrictToLoggedinUserOnly } from './middlewares/auth.js';
+import { checkAuthentication, restrictTo } from './middlewares/auth.js';
 
 const app = express()
 const PORT = 8001;
@@ -20,11 +20,11 @@ app.set('views', path.resolve('./views'))
 app.use(express.json())
 app.use(express.urlencoded({extended: false}));
 app.use(cookieParser())
+app.use(checkAuthentication)
 
-
-app.use('/url', restrictToLoggedinUserOnly, urlRouter)
+app.use('/url', restrictTo(["NORMAL"]), urlRouter)
 app.use('/', urlRouter);
 app.use('/user', userRouter)
-app.use('/static', checkAuth, staticRouter);
+app.use('/static', staticRouter);
 
 app.listen(PORT, ()=> console.log('backend connected'))
